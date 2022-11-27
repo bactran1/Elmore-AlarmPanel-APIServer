@@ -5,7 +5,13 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-//const db = require("./server");
+var db = require("./server").db;  //important
+//import { createOrUpdate, deleteUserById, getUserById, readAllUsers } from './aws-DynamoDB.js'
+const readAllCustomers = require('./aws-DynamoDB').readAllCustomers;
+
+
+
+
 
 var PORT = 3000
 
@@ -31,9 +37,33 @@ io.on('connection', (socket) => {
 
 app.get('/test', (req, res) => {
   db.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
+    if (err) {
+      throw err;
+    } else {
+      console.log("Connected!");
+      db.query("SELECT * FROM alarmsMain where alarmID = 5", (err,rows) => {
+        if(err) {
+          throw err;
+          console.log(err);
+        } else {
+          res.send(rows);
+        }
+      })
+    };
   });
+})
+
+app.get('/aws' , async(req,res) => {
+  const { err, data } = await readAllCustomers
+
+  if(err){
+    return res.status(500).json({success:false, messsage: "Error"}),
+    console.log(err)
+  } else {
+      return res.json({data}),
+      console.log('Connected!');
+  }
+  
 })
 
 
