@@ -6,8 +6,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 var db = require("./server").db;  //important
-//import { createOrUpdate, deleteUserById, getUserById, readAllUsers } from './aws-DynamoDB.js'
-const readAllCustomers = require('./aws-DynamoDB').readAllCustomers;
+readAllCustomers = require('./aws-DynamoDB').awsReadItem.readAllCustomers;
 
 
 
@@ -53,15 +52,16 @@ app.get('/test', (req, res) => {
   });
 })
 
-app.get('/aws' , async(req,res) => {
-  const { err, data } = await readAllCustomers
+app.get('/aws' , async (req,res) => {
+  
+  let { success, data } = await readAllCustomers;
 
-  if(err){
-    return res.status(500).json({success:false, messsage: "Error"}),
-    console.log(err)
+  if(success){
+    return res.send(JSON.stringify(data)),
+    console.log('Data retrieved!', success);
   } else {
-      return res.json({data}),
-      console.log('Connected!');
+    return res.status(500).json({success:false, messsage: data}),
+    console.log("Error", JSON.stringify(data))
   }
   
 })

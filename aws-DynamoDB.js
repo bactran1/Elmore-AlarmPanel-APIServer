@@ -1,22 +1,32 @@
-const Table = require('./awsDB.config').Table;
-const db = require('./awsDB.config').db;
+const Table = require('./awsDB.config').awsConf.Table;
+const db = require('./awsDB.config').awsConf.db;
 
 //Read all customers
-readAllCustomers = async() => {
-    const params = {
-        TableName: Table,
-    }
+let readAllCustomersFunc = async() => {
+    var params = {
+        "TableName": Table,
+        "Key": {
+            CustomerID: "E304C0640B284ACE5358712F49FBCEFF"
+        },
+        //"AttributesToGet": ['CustomerName']
+    };
 
     try{
-        const {Items = []} = await db.scan(params).promise()
+        const Items = await db.get(params).promise();
+
+        console.log("Success, data is retrieved");
         return {success : true, data: Items}
+        
     } catch(err){
-        return {success : false, data: null}
+        console.log("Error",err);
+        return {success : false, data: err}
     } 
 };
 
+var readAllCustomers = readAllCustomersFunc();
 
-exports.readAllCustomers = {
+
+exports.awsReadItem = {
     readAllCustomers
 }
 
