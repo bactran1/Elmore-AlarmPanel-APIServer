@@ -8,7 +8,7 @@ async function readAllCustomersFunc () {
         "Key": {
             CustomerID: "E304C0640B284ACE5358712F49FBCEFF"
         },
-        //"AttributesToGet": ['CustomerName']
+        "AttributesToGet": ['CustomerName', 'POC']
     };
 
     try{
@@ -18,9 +18,10 @@ async function readAllCustomersFunc () {
         return {success : true, data: Items}
         
     } catch(err){
-        throw err;
         console.log("Error",err);
         return {success : false, data: err}
+        throw err;
+
     }
 };
 
