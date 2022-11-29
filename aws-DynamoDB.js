@@ -2,7 +2,7 @@ const Table = require('./awsDB.config').awsConf.Table;
 const db = require('./awsDB.config').awsConf.db;
 
 //Read all customers
-let readAllCustomersFunc = async() => {
+async function readAllCustomersFunc () {
     var params = {
         "TableName": Table,
         "Key": {
@@ -18,9 +18,10 @@ let readAllCustomersFunc = async() => {
         return {success : true, data: Items}
         
     } catch(err){
+        throw err;
         console.log("Error",err);
         return {success : false, data: err}
-    } 
+    }
 };
 
 var readAllCustomers = readAllCustomersFunc();

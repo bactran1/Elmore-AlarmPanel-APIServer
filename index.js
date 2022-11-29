@@ -38,14 +38,17 @@ app.get('/test', (req, res) => {
   db.connect(function(err) {
     if (err) {
       throw err;
+      console.log("DB connection error", err);
     } else {
-      console.log("Connected!");
+      console.log("Data Retrieved from MYSQL DB!");
       db.query("SELECT * FROM alarmsMain where alarmID = 5", (err,rows) => {
         if(err) {
           throw err;
           console.log(err);
         } else {
           res.send(rows);
+          db.end();
+          console.log("Ended connection!")
         }
       })
     };
