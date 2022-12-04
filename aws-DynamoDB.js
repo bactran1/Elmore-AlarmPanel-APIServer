@@ -16,7 +16,7 @@ export default async function readAllCustomers () {
     try{
         const Items = await db.get(params).promise();
 
-        console.log("Success, data is retrieved",Items);
+        console.log("Success, data is retrieved");
         return {success : true, data: Items}
         
     } catch(err){

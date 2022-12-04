@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
 
 io.on('connection', async (socket) => {
 
-    const intervalID2 =  await setInterval(emitToFront, 2000);
+    const intervalID2 =  await setInterval(emitToFront, 5000);
     
     async function emitToFront() {
 
@@ -64,48 +64,6 @@ app.get('/test', (req, res) => {
     
     res.sendFile(__dirname + '/index2.html');
 
-    /* const intervalID =  setInterval(queryDB, 10000);
-    
-    async function queryDB(){
-
-
-        if(success){
-          //return res.send(JSON.stringify(data)),
-          console.log('Data retrieved!', data);
-        } else {
-          //return res.status(500).json({success:false, messsage: data}),
-          console.log("Error Server", JSON.stringify(data))
-        }
-
-
-
-    }; */
-  
-
-
-
-
-
-    /* db.connect(function(err) {
-        if (err) {
-        throw err;
-        console.log("DB connection error", err);
-        } else {
-        console.log("Data Retrieved from MYSQL DB!");
-            db.query("SELECT * FROM alarmsMain where alarmID = 5", (err,rows) => {
-                if(err) {
-                throw err;
-                console.log(err);
-                } else {
-                res.send(rows);
-                db.end();
-                console.log("Ended connection!")
-                }
-            })
-        };
-    }); */
-
-    intervalID;
 })
 
 /* app.get('/aws' , async (req,res) => {
