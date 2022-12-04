@@ -9,9 +9,9 @@ AWS.config.update(awsConfig);
 let docClient = new AWS.DynamoDB.DocumentClient();
 let fetchOneByKey = async function () {
     var params = {
-        TableName: "Customers",
+        TableName: "Customer",
         Key: {
-            CustomerID: "A6EE87B6FAEDB76AF8CC32A55A58BFDC"
+            CustomerID: "9E450C5DC5D6AED559EABDC29F04B720"
         }
     };
     await docClient.get(params, function (err, data) {

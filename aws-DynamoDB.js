@@ -6,21 +6,22 @@ async function readAllCustomersFunc () {
     var params = {
         "TableName": Table,
         "Key": {
-            CustomerID: "E304C0640B284ACE5358712F49FBCEFF"
-        },
+            CustomerID: "12345VA"
+        }
         //"AttributesToGet": ['CustomerName']
     };
 
     try{
         const Items = await db.get(params).promise();
 
-        console.log("Success, data is retrieved");
+        console.log("Success, data is retrieved",Items);
         return {success : true, data: Items}
         
     } catch(err){
-        throw err;
         console.log("Error",err);
+        throw err;
         return {success : false, data: err}
+
     }
 };
 

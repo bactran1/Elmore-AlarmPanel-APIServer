@@ -30,7 +30,7 @@
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
-
+/* 
       //Emitting events
       form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -38,15 +38,19 @@
           socket.emit('chat message', input.value);
           input.value = '';
         }
-      });
+      }); */
 
       //Capturing events
-      socket.on('chat message', function(msg) {
+      socket.on('pushFront', function(ItemCached) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = JSON.stringify(ItemCached);
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
+
+
+
+
     </script>
   </body>
 </html>
