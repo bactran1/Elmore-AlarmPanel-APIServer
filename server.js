@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 const db =  
   mysql.createConnection({
@@ -10,4 +10,4 @@ const db =
   }).promise();
 
 
-exports.db = db;
+export {db};

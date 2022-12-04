@@ -1,8 +1,8 @@
-const Table = require('./awsDB.config').awsConf.Table;
-const db = require('./awsDB.config').awsConf.db;
+import {Table} from './awsDB.config.js';
+import {db} from './awsDB.config.js';
 
 //Read all customers
-async function readAllCustomersFunc () {
+export default async function readAllCustomers () {
     var params = {
         "TableName": Table,
         "Key": {
@@ -21,19 +21,14 @@ async function readAllCustomersFunc () {
         
     } catch(err){
         console.log("Error",err);
-        throw err;
         return {success : false, data: err}
-
         throw err;
+
 
     }
 };
 
-var readAllCustomers = readAllCustomersFunc();
 
 
-exports.awsReadItem = {
-    readAllCustomers
-}
 
 

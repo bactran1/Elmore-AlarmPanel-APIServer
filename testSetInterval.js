@@ -1,14 +1,19 @@
-const express = require('express');
-const mysql = require('mysql2');
+import express from 'express';
+import mysql from 'mysql2';
 const app = express();
-const http = require('http');
+import http from 'http';
 const server = http.createServer(app);
-const { Server } = require("socket.io");
+import { Server } from "socket.io";
 const io = new Server(server);
-var db = require("./server").db;  //important
-readAllCustomers = require('./aws-DynamoDB').awsReadItem.readAllCustomers;
+import {db} from "./server.js";  //important
+import readAllCustomers from './aws-DynamoDB.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 var ItemCached = "";
@@ -38,11 +43,11 @@ io.on('connection', (socket) => {
 
 io.on('connection', async (socket) => {
 
-    const intervalID2 =  setInterval(emitToFront, 2000);
+    const intervalID2 =  await setInterval(emitToFront, 2000);
     
     async function emitToFront() {
 
-        let { success, data } = await readAllCustomers;
+        let { success, data } = await readAllCustomers();
         let ItemCached1 = data;
 
         socket.emit('pushFront', ItemCached1);
@@ -59,24 +64,22 @@ app.get('/test', (req, res) => {
     
     res.sendFile(__dirname + '/index2.html');
 
-    const intervalID =  setInterval(queryDB, 5000);
+    /* const intervalID =  setInterval(queryDB, 10000);
     
     async function queryDB(){
-  
-        let { success, data } = await readAllCustomers;
-        ItemCached = data;
+
 
         if(success){
           //return res.send(JSON.stringify(data)),
           console.log('Data retrieved!', data);
         } else {
           //return res.status(500).json({success:false, messsage: data}),
-          console.log("Error", JSON.stringify(data))
+          console.log("Error Server", JSON.stringify(data))
         }
 
 
 
-    };
+    }; */
   
 
 

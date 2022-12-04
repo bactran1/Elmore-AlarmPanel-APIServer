@@ -1,5 +1,6 @@
-require('dotenv').config();
-const AWS = require('aws-sdk');
+import dotenv from 'dotenv'
+dotenv.config()
+import AWS from 'aws-sdk';
 
 AWS.config.update({
     "region": "us-west-2",
@@ -9,11 +10,12 @@ AWS.config.update({
 
 })
 
-const db = new AWS.DynamoDB.DocumentClient();
+let db = new AWS.DynamoDB.DocumentClient();
+
 
 const Table = "Customers";
 
-exports.awsConf = {
+export {
     Table,
     db
 };
