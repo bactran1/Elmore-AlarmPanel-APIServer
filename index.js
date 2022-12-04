@@ -1,14 +1,19 @@
-const express = require('express');
-const mysql = require('mysql2');
+import express from 'express';
+import mysql from 'mysql2';
 const app = express();
-const http = require('http');
+import http from 'http';
 const server = http.createServer(app);
-const { Server } = require("socket.io");
+import { Server } from "socket.io";
 const io = new Server(server);
-var db = require("./server").db;  //important
-readAllCustomers = require('./aws-DynamoDB').awsReadItem.readAllCustomers;
+import {db} from "./server.js";  //important
+import readAllCustomers from './aws-DynamoDB.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 
@@ -20,10 +25,10 @@ app.get('/', (req, res) => {
 
 //Check to see if a user is connected or disconnected
 io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-      console.log('a user disconnected!')
-    })
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('a user disconnected!')
+  })
 });
 
 //Emitting messages + capturing events
@@ -33,29 +38,31 @@ io.on('connection', (socket) => {
   });
 });
 
+io.on('connection', async (socket) => {
+
+  const intervalID2 =  await setInterval(emitToFront, 5000);
+  
+  async function emitToFront() {
+
+      let { success, data } = await readAllCustomers();
+      let ItemCached1 = data;
+
+      socket.emit('pushFront', ItemCached1);
+  }
+      
+  intervalID2;
+
+});
+
+
 
 app.get('/test', (req, res) => {
-  db.connect(function(err) {
-    if (err) {
-      throw err;
-      console.log("DB connection error", err);
-    } else {
-      console.log("Data Retrieved from MYSQL DB!");
-      db.query("SELECT * FROM alarmsMain where alarmID = 5", (err,rows) => {
-        if(err) {
-          throw err;
-          console.log(err);
-        } else {
-          res.send(rows);
-          db.end();
-          console.log("Ended connection!")
-        }
-      })
-    };
-  });
+    
+    res.sendFile(__dirname + '/index2.html');
+
 })
 
-app.get('/aws' , async (req,res) => {
+/* app.get('/aws' , async (req,res) => {
   
   let { success, data } = await readAllCustomers;
 
@@ -67,7 +74,10 @@ app.get('/aws' , async (req,res) => {
     console.log("Error", JSON.stringify(data))
   }
   
-})
+}) */
+
+
+
 
 
 server.listen(PORT, () => {
