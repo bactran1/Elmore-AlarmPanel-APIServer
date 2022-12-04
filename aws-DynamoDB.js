@@ -9,6 +9,8 @@ async function readAllCustomersFunc () {
             CustomerID: "12345VA"
         }
         //"AttributesToGet": ['CustomerName']
+
+        
     };
 
     try{
@@ -21,6 +23,8 @@ async function readAllCustomersFunc () {
         console.log("Error",err);
         throw err;
         return {success : false, data: err}
+
+        throw err;
 
     }
 };
