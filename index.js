@@ -1,11 +1,11 @@
 import express from 'express';
-import mysql from 'mysql2';
+//import mysql from 'mysql2';
 const app = express();
 import http from 'http';
 const server = http.createServer(app);
 import { Server } from "socket.io";
 const io = new Server(server);
-import {db} from "./server.js";  //important
+//import {db} from "./server.js";  //important
 import readAllCustomers from './aws-DynamoDB.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
