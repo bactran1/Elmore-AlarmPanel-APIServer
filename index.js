@@ -23,6 +23,12 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+//Make Render.com app awake using cron-job.org
+app.get('/cron', (req, res) => {
+	//	res.sendFile("index.html", { root: path.join(__dirname, "/public") });
+	res.send('cron successful!!!!!');
+});
+
 //Check to see if a user is connected or disconnected
 io.on('connection', (socket) => {
   console.log('a user connected');
