@@ -14,7 +14,10 @@ export default async function readAllCustomers () {
     };
 
     try{
+        //Use db.scan() for querying the whole table
         const Items = await db.get(params).promise();
+        //Use db.get() for querying specific item with Primary Key (i.e. "Key")
+
 
         console.log("Success, data is retrieved");
         return {success : true, data: Items}
